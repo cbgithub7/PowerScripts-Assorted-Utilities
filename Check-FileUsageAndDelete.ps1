@@ -47,7 +47,12 @@ if (Test-Path $filePath) {
             Write-Host "No process is using the file."
         } else {
             # Prompt user to confirm deletion
-            $userResponse = Read-Host "Do you want to end the process(es) and delete the file? (yes/no)"
+            do {
+                $userResponse = Read-Host "Do you want to end the process(es) and delete the file? (yes/no)"
+            } until ($userResponse -match '^(yes|no|y|n)$')
+
+            $userResponse = $userResponse.ToLower()
+
             if ($userResponse -match '^(yes|y)$') {
                 # Terminate processes using the file
                 foreach ($process in $processesUsingFile) {
